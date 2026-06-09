@@ -75,8 +75,6 @@ textarea:focus-visible {
 
 .app-layout {
   flex: 1 1 auto;
-  height: calc(100vh - 72px);
-  height: calc(100dvh - 72px);
   min-height: 0;
   display: grid;
   grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
@@ -282,6 +280,30 @@ button[aria-pressed="false"]:hover,
   border: 1px solid transparent;
 }
 
+.app-credit {
+  position: relative;
+  z-index: 30;
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  align-items: center;
+  padding: 6px clamp(16px, 3vw, 32px);
+  border-top: 1px solid var(--panel-border);
+  background: #ffffff;
+  color: #6d7a72;
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.app-credit p {
+  margin: 0;
+}
+
+.app-credit p + p {
+  color: #859089;
+}
+
 .map-area {
   position: relative;
   z-index: 1;
@@ -344,6 +366,10 @@ button[aria-pressed="false"]:hover,
   box-shadow: 0 10px 24px rgba(31, 41, 36, 0.16);
 }
 
+.print-credit {
+  display: none;
+}
+
 @media (max-width: 840px) {
   .app-layout {
     grid-template-columns: 1fr;
@@ -371,28 +397,50 @@ button[aria-pressed="false"]:hover,
   }
 
   .app-header,
-  .sidebar {
+  .sidebar,
+  .app-credit {
     display: none;
   }
 
   .app-layout,
-  .map-area,
+  .map-area {
+    position: static;
+    display: block;
+    width: 100%;
+    min-height: auto;
+    height: calc(100vh - 34px);
+    overflow: visible;
+  }
+
   #map {
     position: static;
     display: block;
     width: 100%;
     min-height: auto;
-    height: 100vh;
+    height: calc(100vh - 34px);
     overflow: visible;
   }
 
   .map-notice {
     display: none;
   }
-}
 
-@media print {
   .leaflet-control-zoom {
     display: none !important;
+  }
+
+  .print-credit {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    margin: 0;
+    padding: 6px 0 0;
+    border-top: 1px solid #d8ded7;
+    background: #ffffff;
+    color: #66736b;
+    font-size: 9pt;
+    line-height: 1.25;
   }
 }
