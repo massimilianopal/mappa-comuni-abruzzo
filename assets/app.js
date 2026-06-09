@@ -7,6 +7,9 @@
     municipalities: "data/abruzzo-comuni.geojson"
   };
 
+  var REGION_FIT_PADDING = [56, 56];
+  var REGION_VIEW_PADDING_RATIO = 0.08;
+
   // I dataset istituzionali possono usare nomi di campi diversi.
   var MUNICIPALITY_NAME_FIELDS = ["COMUNE", "DEN_COM", "DEN_COMUNE", "NOME", "NAME", "name"];
   var PROVINCE_NAME_FIELDS = ["DEN_PROV", "DEN_UTS", "PROVINCIA", "NOME", "NAME", "name"];
@@ -40,8 +43,12 @@
   // Leaflet viene usato solo per renderizzare GeoJSON: nessun tile stradale.
   var map = L.map("map", {
     attributionControl: false,
+    maxBoundsViscosity: 0.85,
+    maxZoom: 13,
+    minZoom: 6,
     preferCanvas: true,
-    zoomSnap: 0.25
+    zoomDelta: 0.5,
+    zoomSnap: 0.1
   }).setView([42.25, 13.8], 8);
 
   L.control.scale({ imperial: false }).addTo(map);
@@ -247,6 +254,41 @@
     return 0;
   }
 
+  function getRegionBounds() {
+    if (!regionLayer) {
+      return null;
+    }
+
+    var bounds = regionLayer.getBounds();
+    return bounds && bounds.isValid() ? bounds : null;
+  }
+
+  function applyRegionMapLimits() {
+    var bounds = getRegionBounds();
+    if (!bounds) {
+      return;
+    }
+
+    map.setMaxBounds(bounds.pad(0.25));
+  }
+
+  function fitRegionBounds() {
+    var bounds = getRegionBounds();
+    if (bounds) {
+      map.fitBounds(bounds.pad(REGION_VIEW_PADDING_RATIO), {
+        animate: false,
+        padding: REGION_FIT_PADDING
+      });
+      return true;
+    }
+
+    return false;
+  }
+
+  function refreshMapSize() {
+    map.invalidateSize({ pan: false });
+  }
+
   async function loadRegion() {
     try {
       var geojson = await fetchGeoJson(DATA_FILES.region);
@@ -254,6 +296,9 @@
         pane: "regionPane",
         style: regionStyle
       }).addTo(map);
+      applyRegionMapLimits();
+      refreshMapSize();
+      fitRegionBounds();
       setStatus("Regione", "ok", featureCount(geojson) + " geometrie caricate.");
     } catch (error) {
       setStatus("Regione", "warn", error.message);
@@ -426,8 +471,12 @@
   }
 
   function fitAvailableBounds() {
+    if (fitRegionBounds()) {
+      return;
+    }
+
     var bounds = null;
-    [regionLayer, municipalityLayer, provinceLayer].forEach(function (layer) {
+    [municipalityLayer, provinceLayer].forEach(function (layer) {
       if (!layer || !map.hasLayer(layer)) {
         return;
       }
@@ -472,7 +521,12 @@
     updateSummary([], []);
 
     await Promise.all([loadRegion(), loadProvinces(), loadMunicipalities()]);
+    refreshMapSize();
     fitAvailableBounds();
+    window.setTimeout(function () {
+      refreshMapSize();
+      fitAvailableBounds();
+    }, 0);
 
     dom.highlightButton.addEventListener("click", highlightMunicipalities);
     dom.clearButton.addEventListener("click", clearSelection);
@@ -480,6 +534,12 @@
     dom.toggleProvincesButton.addEventListener("click", toggleProvinceBorders);
     dom.printButton.addEventListener("click", function () {
       window.print();
+    });
+    window.addEventListener("resize", function () {
+      refreshMapSize();
+      if (!selectedKeys.size) {
+        fitAvailableBounds();
+      }
     });
   }
 
