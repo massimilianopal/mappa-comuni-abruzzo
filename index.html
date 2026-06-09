@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mappa comuni Abruzzo</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIINfQ1uRsA6J0i2rULXxQM2Ka6z7LOrCnE="
+      crossorigin=""
+    >
+    <link rel="stylesheet" href="assets/style.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Mappa comuni Abruzzo</h1>
+    </header>
+
+    <main class="app-layout">
+      <aside class="sidebar" aria-label="Pannello laterale">
+        <section class="panel">
+          <label class="field-label" for="municipalityInput">Lista comuni</label>
+          <textarea
+            id="municipalityInput"
+            rows="8"
+            placeholder="L'Aquila&#10;Pescara, Chieti; Teramo"
+          ></textarea>
+
+          <div class="button-grid">
+            <button id="highlightButton" type="button">Evidenzia comuni</button>
+            <button id="clearButton" type="button">Pulisci selezione</button>
+            <button id="toggleMunicipalitiesButton" type="button" aria-pressed="true">
+              Mostra/Nascondi confini comunali
+            </button>
+            <button id="toggleProvincesButton" type="button" aria-pressed="true">
+              Mostra/Nascondi confini provinciali
+            </button>
+            <button id="printButton" type="button">Stampa</button>
+          </div>
+        </section>
+
+        <section class="panel status-panel" aria-labelledby="statusTitle">
+          <h2 id="statusTitle">Stato dati</h2>
+          <div id="dataStatus" class="status-list" aria-live="polite"></div>
+        </section>
+
+        <section class="panel summary-panel" aria-labelledby="summaryTitle">
+          <h2 id="summaryTitle">Riepilogo</h2>
+          <p class="summary-count">
+            Comuni trovati: <strong id="foundCount">0</strong>
+          </p>
+
+          <h3>Elenco comuni trovati</h3>
+          <ul id="foundList" class="result-list empty-list">
+            <li>Nessun comune selezionato.</li>
+          </ul>
+
+          <h3>Elenco comuni non riconosciuti</h3>
+          <ul id="missingList" class="result-list empty-list">
+            <li>Nessun comune da mostrare.</li>
+          </ul>
+        </section>
+
+        <section class="panel legend-panel" aria-labelledby="legendTitle">
+          <h2 id="legendTitle">Legenda</h2>
+          <ul class="legend-list">
+            <li><span class="legend-swatch region-swatch"></span> Regione Abruzzo</li>
+            <li><span class="legend-swatch municipality-swatch"></span> Confini comunali</li>
+            <li><span class="legend-swatch selected-swatch"></span> Comuni evidenziati</li>
+            <li><span class="legend-swatch province-swatch"></span> Confini provinciali</li>
+          </ul>
+        </section>
+      </aside>
+
+      <section class="map-area" aria-label="Area mappa">
+        <div id="map" role="application" aria-label="Mappa amministrativa della Regione Abruzzo"></div>
+        <div id="mapNotice" class="map-notice" hidden></div>
+      </section>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
