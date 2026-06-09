@@ -390,3 +390,9 @@ button[aria-pressed="false"]:hover,
     display: none;
   }
 }
+
+@media print {
+  .leaflet-control-zoom {
+    display: none !important;
+  }
+}
