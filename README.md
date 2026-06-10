@@ -10,8 +10,10 @@ Il progetto usa HTML, CSS, JavaScript vanilla e Leaflet. Non usa backend, databa
 - Visualizzazione dei confini provinciali e comunali.
 - Evidenziazione di comuni a partire da una lista inserita dall’utente.
 - Riepilogo dei comuni riconosciuti e di quelli non riconosciuti.
+- Box stampabile con l’elenco alfabetico dei comuni evidenziati.
+- Etichette opzionali sulla mappa per i soli comuni evidenziati.
 - Possibilità di mostrare o nascondere i layer dei confini.
-- Stampa della mappa con un riferimento essenziale al progetto.
+- Stampa / Salva PDF tramite browser, con un riferimento essenziale al progetto.
 
 Leaflet è caricato da CDN e viene usato per disegnare i GeoJSON. La webapp non aggiunge tile OpenStreetMap o altre mappe esterne.
 

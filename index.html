@@ -31,8 +31,17 @@
             <button id="toggleProvincesButton" type="button" aria-pressed="true">
               Mostra/Nascondi confini provinciali
             </button>
-            <button id="printButton" type="button">Stampa</button>
+            <button id="toggleHighlightedListButton" type="button" aria-pressed="true">
+              Mostra/Nascondi elenco comuni
+            </button>
+            <button id="toggleLabelsButton" type="button" aria-pressed="false">
+              Mostra/Nascondi etichette comuni
+            </button>
+            <button id="printButton" type="button">Stampa / Salva PDF</button>
           </div>
+          <p id="labelsNotice" class="labels-notice" hidden>
+            Le etichette sono più leggibili con un numero limitato di comuni.
+          </p>
         </section>
 
         <section class="panel status-panel" aria-labelledby="statusTitle">
@@ -67,20 +76,23 @@
           </ul>
         </section>
 
+        <div class="sidebar-credit" aria-label="Riferimenti del progetto">
+          <p>Progetto dimostrativo per la Regione Abruzzo · Massimiliano Palizzi</p>
+          <p>Realizzato con l’ausilio di ChatGPT/Codex</p>
+        </div>
       </aside>
 
       <section class="map-area" aria-label="Area mappa">
         <div id="map" role="application" aria-label="Mappa amministrativa della Regione Abruzzo"></div>
         <div id="mapNotice" class="map-notice" hidden></div>
+        <section id="highlightedMunicipalityBox" class="highlighted-list-box" aria-labelledby="highlightedMunicipalityTitle">
+          <h2 id="highlightedMunicipalityTitle">Elenco comuni evidenziati</h2>
+          <ul id="highlightedMunicipalityList" class="result-list empty-list">
+            <li>Nessun comune evidenziato.</li>
+          </ul>
+        </section>
       </section>
     </main>
-
-    <footer class="app-credit" aria-label="Riferimenti del progetto">
-      <p>Progetto dimostrativo per la Regione Abruzzo · Massimiliano Palizzi</p>
-      <p>Realizzato con l’ausilio di ChatGPT/Codex</p>
-    </footer>
-
-    <p class="print-credit" aria-hidden="true">Mappa comuni Abruzzo · Regione Abruzzo · Massimiliano Palizzi</p>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="assets/app.js"></script>
